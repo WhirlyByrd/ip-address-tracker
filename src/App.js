@@ -1,5 +1,8 @@
 import arrow from './images/icon-arrow.svg'
+
 import background from './images/pattern-bg.png'
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
 
 //https://geo.ipify.org/api/v2/country,city?apiKey=at_KOqNTBOdMgCrU13BOCeSqw3CZDi4O&ipAddress=8.8.8.8
 
@@ -10,7 +13,7 @@ function App() {
         <div className="absolute -z-10">
           <img src={background} alt="" className="w-full h-80 object-cover" />
         </div>
-        <article className="mb-8">
+        <article className="mb-8 py-9">
           <h1 className="text-2xl text-center lg:text-3xl text-white font-bold mb-8">
             IP Address Tracker
           </h1>
@@ -33,26 +36,60 @@ function App() {
           </form>
         </article>
 
-        <article className='bg-white rounded-lg shadow p-8 mx-8'>
-          <div className='lg:border-r lg:border-slate-400'>
-            <h2 className='uppercase text-sm font-bold text-slate-500 tracking-wider mb-3'>IP ADDRESS</h2>
-            <p className='font-bold text-slate-900'>192.212.174.101</p>
+        <article className="bg-white rounded-lg shadow p-8 mx-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl xl:mx-auto text-center md:text-left">
+          <div className="lg:border-r lg:border-slate-400">
+            <h2 className="uppercase text-sm font-bold text-slate-500 tracking-wider mb-3">
+              IP ADDRESS
+            </h2>
+            <p className="font-medium text-slate-900 text-lg md:text-xl xl:text-2xl">
+              192.212.174.101
+            </p>
           </div>
-          <div>
-            <h2>LOCATION</h2>
-            <p>Brooklyn, NY 10001</p>
+
+          <div className="lg:border-r lg:border-slate-400">
+            <h2 className="uppercase text-sm font-bold text-slate-500 tracking-wider mb-3">
+              LOCATION
+            </h2>
+            <p className="font-medium text-slate-900 text-lg md:text-xl xl:text-2xl">
+              Brooklyn, NY 10001
+            </p>
           </div>
-          <div>
-            <h2>TIMEZONE</h2>
-            <p>UTC-05:00</p>
+
+          <div className="lg:border-r lg:border-slate-400">
+            <h2 className="uppercase text-sm font-bold text-slate-500 tracking-wider mb-3">
+              TIMEZONE
+            </h2>
+            <p className="font-medium text-slate-900 text-lg md:text-xl xl:text-2xl">
+              UTC-05:00
+            </p>
           </div>
+
           <div>
-            <h2>ISP</h2>
-            <p>SpaceX</p>
-            <p>Starlink</p>
+            <h2 className="uppercase text-sm font-bold text-slate-500 tracking-wider mb-3">
+              ISP
+            </h2>
+            <p className="font-medium text-slate-900 text-lg md:text-xl xl:text-2xl">
+              SpaceX Starlink
+            </p>
           </div>
         </article>
 
+        <MapContainer
+          center={[51.505, -0.09]}
+          zoom={13}
+          scrollWheelZoom={false}
+          style={{height: '500px', width: '100vw'}}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={[51.505, -0.09]}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+          </Marker>
+        </MapContainer>
       </section>
     </>
   );
