@@ -1,13 +1,32 @@
+import { useState, useEffect } from 'react'
 import arrow from './images/icon-arrow.svg'
-
 import background from './images/pattern-bg.png'
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import icon from './icon'
 
-//https://geo.ipify.org/api/v2/country,city?apiKey=at_KOqNTBOdMgCrU13BOCeSqw3CZDi4O&ipAddress=8.8.8.8
 
+//api requires a paid subscription to use ipify. 
 function App() {
+  const [address, setAddress] = useState(null);
+  const [ipAddress, setIpAddress] = useState('');
+
+  useEffect(() => {
+    try {
+      const getInitialData = async () => {
+        const res = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.REACT_APP_API_KEY}&ipAddress=192.212.174.101`)
+        const data = await res.json();
+        setAddress(data)
+      }
+
+      getInitialData();
+
+    } catch (error) {
+      console.trace(error)
+    }
+  }, [])
+
+
   return (
     <>
       <section>
@@ -37,13 +56,16 @@ function App() {
           </form>
         </article>
 
-        <article className="bg-white rounded-lg shadow p-8 mx-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl xl:mx-auto text-center md:text-left lg:-mb-16 relative" style={{zIndex: 10000}}>
+        {address && (
+        <>
+        <article 
+        className="bg-white rounded-lg shadow p-8 mx-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl xl:mx-auto text-center md:text-left lg:-mb-16 relative" style={{zIndex: 10000}}>
           <div className="lg:border-r lg:border-slate-400">
             <h2 className="uppercase text-sm font-bold text-slate-500 tracking-wider mb-3">
               IP ADDRESS
             </h2>
             <p className="font-medium text-slate-900 text-lg md:text-xl xl:text-2xl">
-              192.212.174.101
+              {address.ip}
             </p>
           </div>
 
@@ -91,6 +113,8 @@ function App() {
             </Popup>
           </Marker>
         </MapContainer>
+        </>
+         )}
       </section>
     </>
   );
